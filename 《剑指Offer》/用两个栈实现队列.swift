@@ -7,6 +7,7 @@ struct Stack<Element>{
 	mutating func push(_ item : Element){
 		items.append(item)
 	}
+	
 	mutating func pop() -> Element? {
 		if items.count > 0 {
 			return items.removeLast()
@@ -14,6 +15,7 @@ struct Stack<Element>{
 			return nil
 		}
 	}
+	
 	func isEmpty() -> Bool {
 		if items.count > 0 {
 			return false
@@ -21,23 +23,22 @@ struct Stack<Element>{
 			return true
 		}
 	}
+	
 }
 
 struct Queue <Element>{
 	var stackA = Stack<Element>()
 	var stackB = Stack<Element>()
 	mutating func appendTail(_ item:Element){
-		while !stackB.isEmpty() {
-			let itemB = stackB.pop()
-			stackA.push(itemB!)
-		}
 		stackA.push(item)
 	}
 	
 	mutating func deleteHead() -> Element?{
-		while !stackA.isEmpty() {
-			let item = stackA.pop()
-			stackB.push(item!)
+		if stackB.isEmpty(){
+			while !stackA.isEmpty() {
+				let item = stackA.pop()
+				stackB.push(item!)
+			}
 		}
 		return stackB.pop()
 	}
