@@ -60,20 +60,38 @@ func print1ToMaxOfDigits_2(_ n:Int){
 		return
 	}
 	
-	var number = Array.init(repeating: Character("0"), count: n)
+	var number = Array.init(repeating: 0, count: n)
 	for i in 0..<10 {
-		number[0] = Character(String(i))
+		number[0] = i
 		print1ToMaxOfDigitsRecursivly(&number, index: 1)
 	}
 }
 
-func print1ToMaxOfDigitsRecursivly(_ number:inout [Character],index:Int){
+func print1ToMaxOfDigitsRecursivly(_ number:inout [Int],index:Int){
 	if index == number.count {
-		printNum(&number)
+		printNum2(&number)
 		return
 	}
 	for i in 0..<10{
-		number[index] = Character(String(i))
+		number[index] = i
 		print1ToMaxOfDigitsRecursivly(&number, index: index+1)
+	}
+}
+
+func printNum2(_ nums:inout [Int]){
+	var beginning0 = true
+	var num = ""
+	for item in nums {
+		if beginning0 {
+			if item != 0 {
+				num = String(item)
+				beginning0 = false
+			}
+		}else{
+			num+=String(item)
+		}
+	}
+	if num != ""{
+		print(num)
 	}
 }
