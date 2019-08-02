@@ -4,31 +4,48 @@
 /// - Returns: 超过一半的数字
 func moreThanHalfNum(_ nums:[Int]) -> Int {
 	
-	func quickSort(_ nums:inout [Int],_ low:Int,_ high:Int) {
-		guard high > low else {
-			return
+	func partition(_ nums:inout [Int], _ start:Int,_ end:Int) -> Int {
+		if nums.isEmpty || start >= end || start < 0 {
+			fatalError("Input Invalid")
 		}
 		
-		var key = low
-		let value = nums[key]
-		for i in low...high {
-			if nums[i] < value {
-				nums.swapAt(i, key)
-				key = i
+		let index = (end-start)>>1 + start
+		nums.swapAt(index, end)
+		
+		var smaller = start-1
+		for i in start..<end {
+			if nums[i] < nums[end] {
+				smaller += 1
+				if smaller != i {
+					nums.swapAt(i, smaller)
+				}
 			}
 		}
-		
-		quickSort(&nums, low, key)
-		quickSort(&nums, key+1, high)
+		smaller += 1
+		nums.swapAt(smaller, end)
+		return smaller
 	}
 	
-	guard !nums.isEmpty else {
-		fatalError("Nums is Empty!")
+	if nums.isEmpty {
+		fatalError("Input Invalid")
 	}
 	
 	var nums = nums
-	quickSort(&nums, 0, nums.count-1)
-	return nums[nums.count>>1]
+	let middle = nums.count >> 1
+	var start = 0
+	var end = nums.count-1
+	var index = partition(&nums, 0, nums.count-1)
+	while index != middle {
+		if index > middle {
+			end = index-1
+			index = partition(&nums, start, end)
+		}
+		if index < middle {
+			start = index+1
+			index = partition(&nums, start, end)
+		}
+	}
+	return nums[middle]
 }
 
 let nums = [1,2,3,2,2,2,5,4,2]
