@@ -19,7 +19,7 @@ func digitAtIndex(_ index:Int) -> Int {
 		if digit == 1 {
 			return 0
 		}else{
-			return Int(pow(10.0, Double(digit)))
+			return Int(pow(10.0, Double(digit-1)))
 		}
 	}
 	
@@ -44,15 +44,15 @@ func digitAtIndex(_ index:Int) -> Int {
 	var index = index
 	while true {
 		let count = countOfInteger(digit)
-		if index < count {
+		if index < count * digit {
 			return digitAtIndex(index, digit)
 		}else{
+			index -= count*digit
 			digit += 1
-			index -= count
 		}
 	}
 	
 }
 
-let res = digitAtIndex(19)
+let res = digitAtIndex(1001)
 print(res)
