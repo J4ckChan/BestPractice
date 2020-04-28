@@ -2,31 +2,29 @@
 ///
 /// - Parameter string: 字符串
 /// - Returns: 第一个只出现一次的字符
-func firstNotRepeatingChar(_ string:String) -> Character {
-	guard string.count > 0 else {
-		return Character("\0")
-	}
-	
-	var dict = Dictionary<Character, Int>()
-	
-	for char in string {
-		if dict.keys.contains(char) {
-			dict[char] = 0
-		}else{
-			dict[char] = 1
+class Solution {
+	func firstUniqChar(_ s: String) -> Character {
+		let char = Character(" ")
+		guard s.count > 0 else {
+			return char
 		}
-	}
-	
-	for char in string {
-		if let value = dict[char] {
-			if value == 1 {
-				return char
+		
+		var dict = [Character:Bool]()
+		for c in s {
+			if let value = dict[c] {
+				if value { dict[c] = false }
+			}else {
+				dict[c] = true
 			}
 		}
+		
+		for c in s {
+			if let value = dict[c] {
+				if value { return c }
+			}
+		}
+		return char
 	}
-	
-	return Character("\0")
 }
-
-let res = firstNotRepeatingChar("abaccdeff")
+let res = Solution().firstUniqChar("abaccdeff")
 print(res)
